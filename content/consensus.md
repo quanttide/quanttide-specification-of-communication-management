@@ -29,3 +29,12 @@
 - **relation_type** (String)：关系类型（如：支持、反对、补充、前置条件等）
 
 **说明**：ConsensusRelation 用于建立共识之间的逻辑关联，形成决策图谱。例如，一个共识可能是另一个共识的前置条件，或者两个共识存在支持或反对关系。
+
+### ConsensusChain（共识链）
+
+- **id** (UUID)：共识链的唯一标识符
+- **consensuses** (List<Consensus>)：按时间顺序排列的共识列表
+- **created_at** (DateTime)：共识链创建时间
+- **updated_at** (DateTime)：共识链最后更新时间
+
+**说明**：ConsensusChain 是多个 Consensus 按时间线顺序组成的线性集合，用于表示一系列相关共识的演进过程。共识链中的共识按照 `created_at` 时间戳排序，形成完整的决策历史记录。
