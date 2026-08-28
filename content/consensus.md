@@ -40,12 +40,12 @@
 
 **说明**：ConsensusGraph 是多个 Consensus 以 DAG（有向无环图）结构组织的集合，表示共识之间的复杂关联关系。图中的节点是共识，边是共识关系，支持多父节点和多子节点，形成有向无环的决策网络。共识图按时间轴排列，确保因果关系的正确性。
 
-## API 设计
+## API 规范
 
 ### Consensus API
 
 #### 创建共识
-- **POST** `/api/v1/consensuses`
+- **POST** `/consensuses`
 - **请求体**：
   ```json
   {
@@ -65,7 +65,7 @@
   ```
 
 #### 获取共识详情
-- **GET** `/api/v1/consensuses/{id}`
+- **GET** `/consensuses/{id}`
 - **响应**：`200 OK`
   ```json
   {
@@ -78,7 +78,7 @@
   ```
 
 #### 更新共识
-- **PUT** `/api/v1/consensuses/{id}`
+- **PUT** `/consensuses/{id}`
 - **请求体**：
   ```json
   {
@@ -98,11 +98,11 @@
   ```
 
 #### 删除共识
-- **DELETE** `/api/v1/consensuses/{id}`
+- **DELETE** `/consensuses/{id}`
 - **响应**：`204 No Content`
 
 #### 获取共识列表
-- **GET** `/api/v1/consensuses`
+- **GET** `/consensuses`
 - **查询参数**：
   - `page` (int, optional): 页码，默认 1
   - `page_size` (int, optional): 每页数量，默认 20
@@ -129,7 +129,7 @@
 ### ConsensusRelation API
 
 #### 创建共识关系
-- **POST** `/api/v1/consensus-relations`
+- **POST** `/consensus-relations`
 - **请求体**：
   ```json
   {
@@ -149,7 +149,7 @@
   ```
 
 #### 获取共识关系详情
-- **GET** `/api/v1/consensus-relations/{id}`
+- **GET** `/consensus-relations/{id}`
 - **响应**：`200 OK`
   ```json
   {
@@ -161,11 +161,11 @@
   ```
 
 #### 删除共识关系
-- **DELETE** `/api/v1/consensus-relations/{id}`
+- **DELETE** `/consensus-relations/{id}`
 - **响应**：`204 No Content`
 
 #### 获取共识的关系列表
-- **GET** `/api/v1/consensuses/{id}/relations`
+- **GET** `/consensuses/{id}/relations`
 - **查询参数**：
   - `direction` (string, optional): 关系方向，`outgoing`（出边）、`incoming`（入边）、`all`（所有），默认 `all`
   - `relation_type` (string, optional): 关系类型筛选
@@ -187,7 +187,7 @@
 ### ConsensusGraph API
 
 #### 创建共识图
-- **POST** `/api/v1/consensus-graphs`
+- **POST** `/consensus-graphs`
 - **请求体**：
   ```json
   {
@@ -207,7 +207,7 @@
   ```
 
 #### 获取共识图详情
-- **GET** `/api/v1/consensus-graphs/{id}`
+- **GET** `/consensus-graphs/{id}`
 - **响应**：`200 OK`
   ```json
   {
@@ -237,7 +237,7 @@
   ```
 
 #### 向共识图添加节点
-- **POST** `/api/v1/consensus-graphs/{id}/nodes`
+- **POST** `/consensus-graphs/{id}/nodes`
 - **请求体**：
   ```json
   {
@@ -273,7 +273,7 @@
   ```
 
 #### 从共识图移除节点
-- **DELETE** `/api/v1/consensus-graphs/{id}/nodes/{consensus_id}`
+- **DELETE** `/consensus-graphs/{id}/nodes/{consensus_id}`
 - **响应**：`200 OK`
   ```json
   {
@@ -303,7 +303,7 @@
   ```
 
 #### 向共识图添加边
-- **POST** `/api/v1/consensus-graphs/{id}/edges`
+- **POST** `/consensus-graphs/{id}/edges`
 - **请求体**：
   ```json
   {
@@ -339,7 +339,7 @@
   ```
 
 #### 从共识图移除边
-- **DELETE** `/api/v1/consensus-graphs/{id}/edges/{relation_id}`
+- **DELETE** `/consensus-graphs/{id}/edges/{relation_id}`
 - **响应**：`200 OK`
   ```json
   {
@@ -369,7 +369,7 @@
   ```
 
 #### 获取共识图的拓扑排序
-- **GET** `/api/v1/consensus-graphs/{id}/topological-sort`
+- **GET** `/consensus-graphs/{id}/topological-sort`
 - **响应**：`200 OK`
   ```json
   {
@@ -386,7 +386,7 @@
   ```
 
 #### 获取共识图的路径
-- **GET** `/api/v1/consensus-graphs/{id}/paths`
+- **GET** `/consensus-graphs/{id}/paths`
 - **查询参数**：
   - `from` (uuid, required): 起始共识 ID
   - `to` (uuid, required): 目标共识 ID
