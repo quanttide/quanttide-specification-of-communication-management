@@ -208,8 +208,7 @@
 
 #### 获取共识图详情
 - **GET** `/consensus-graphs/{id}`
-- **查询参数**：
-  - `sort` (string, optional): 排序方式，`topological`（拓扑排序），默认不排序
+- **说明**：返回的节点列表按拓扑排序，确保因果关系正确
 - **响应**：`200 OK`
   ```json
   {
