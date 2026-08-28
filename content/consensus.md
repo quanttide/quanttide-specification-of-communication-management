@@ -368,12 +368,15 @@
   }
   ```
 
-#### 获取共识图的拓扑排序
-- **GET** `/consensus-graphs/{id}/topological-sort`
+#### 获取共识图（拓扑排序）
+- **GET** `/consensus-graphs/{id}?sort=topological`
 - **响应**：`200 OK`
   ```json
   {
-    "sorted_nodes": [
+    "id": "uuid",
+    "name": "string",
+    "description": "string",
+    "nodes": [
       {
         "id": "uuid",
         "title": "string",
@@ -381,15 +384,22 @@
         "created_at": "datetime",
         "updated_at": "datetime"
       }
-    ]
+    ],
+    "edges": [
+      {
+        "id": "uuid",
+        "from": "uuid",
+        "to": "uuid",
+        "relation_type": "string"
+      }
+    ],
+    "created_at": "datetime",
+    "updated_at": "datetime"
   }
   ```
 
 #### 获取共识图的路径
-- **GET** `/consensus-graphs/{id}/paths`
-- **查询参数**：
-  - `from` (uuid, required): 起始共识 ID
-  - `to` (uuid, required): 目标共识 ID
+- **GET** `/consensus-graphs/{id}/paths/{from}/{to}`
 - **响应**：`200 OK`
   ```json
   {
