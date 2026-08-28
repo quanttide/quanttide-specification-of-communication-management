@@ -399,7 +399,10 @@
   ```
 
 #### 获取共识图的路径
-- **GET** `/consensus-graphs/{id}/paths/{from}/{to}`
+- **GET** `/consensus-graphs/{id}/paths`
+- **查询参数**：
+  - `from` (uuid, required): 起始共识 ID
+  - `to` (uuid, required): 目标共识 ID
 - **响应**：`200 OK`
   ```json
   {
