@@ -18,7 +18,7 @@
 - **id** (String)：备忘的唯一标识符，UUID格式
 - **title** (String)：备忘的标题，简要描述讨论主题
 - **description** (String, optional)：备忘的详细描述
-- **status** (String)：备忘的状态，枚举值：`draft`（草稿）、`open`（开放）、`consensus`（已共识）、`archived`（已归档）
+- **status** (String)：备忘的状态，枚举值：`draft`（草稿）、`open`（开放）、`consensual`（已共识）、`archived`（已归档）
 - **messages** (List<String>)：备忘中的消息ID列表
 - **created_at** (DateTime)：备忘创建时间
 - **updated_at** (DateTime, optional)：备忘最后更新时间
@@ -31,12 +31,12 @@
 
 - **draft**：草稿状态，AI生成的初始备忘
 - **open**：开放状态，等待团队讨论
-- **consensus**：已共识状态，团队已达成一致决策
+- **consensual**：已共识状态，团队已达成一致决策
 - **archived**：已归档状态，备忘已完成并归档
 
 状态迁移规则：
 ```
-draft → open → consensus → archived
+draft → open → consensual → archived
 ```
 
 ## 领域事件
@@ -83,7 +83,7 @@ draft → open → consensus → archived
 
 ### MemoStatusChanged（备忘状态已变更）
 
-- **发生时机**：当备忘状态发生变更时（如从open变为consensus）
+- **发生时机**：当备忘状态发生变更时（如从open变为consensual）
 - **事件载荷**：
   ```json
   {
@@ -93,7 +93,7 @@ draft → open → consensus → archived
     "data": {
       "memo_id": "uuid",
       "old_status": "open",
-      "new_status": "consensus",
+      "new_status": "consensual",
       "changed_at": "2026-08-28T14:23:00+08:00"
     }
   }
@@ -256,7 +256,7 @@ draft → open → consensus → archived
         "id": "memo0a80101-0000-0000-0000-000000000001",
         "title": "支付超时处理方案",
         "description": "讨论支付超时的处理方案",
-        "status": "consensus",
+        "status": "consensual",
         "messages": ["m0a80101-0000-0000-0000-000000000001"],
         "created_at": "2026-08-28T02:03:00+08:00"
       }
@@ -269,11 +269,11 @@ draft → open → consensus → archived
 
 #### 变更备忘状态
 - **PATCH** `/memos/{id}/status`
-- **使用场景**：变更备忘状态（如从open变为consensus）
+- **使用场景**：变更备忘状态（如从open变为consensual）
 - **请求体**：
   ```json
   {
-    "status": "consensus"
+    "status": "consensual"
   }
   ```
 - **响应**：`200 OK`
@@ -282,7 +282,7 @@ draft → open → consensus → archived
     "id": "memo0a80101-0000-0000-0000-000000000001",
     "title": "支付超时处理方案",
     "description": "讨论支付超时的处理方案",
-    "status": "consensus",
+    "status": "consensual",
     "messages": ["m0a80101-0000-0000-0000-000000000001"],
     "created_at": "2026-08-28T02:03:00+08:00",
     "updated_at": "2026-08-28T14:23:00+08:00"
@@ -339,7 +339,7 @@ type Memo struct {
     ID          string   `json:"id"`
     Title       string   `json:"title"`
     Description string   `json:"description,omitempty"`
-    Status      string   `json:"status"`                // "draft" / "open" / "consensus" / "archived"
+    Status      string   `json:"status"`                // "draft" / "open" / "consensual" / "archived"
     Messages    []string `json:"messages"`
     CreatedAt   string   `json:"created_at"`
     UpdatedAt   string   `json:"updated_at,omitempty"`
@@ -359,7 +359,7 @@ import consensus "github.com/quanttide/quanttide-connect-toolkit/packages/go/pkg
 class MemoStatus(str, Enum):
     draft = "draft"
     open = "open"
-    consensus = "consensus"
+    consensual = "consensual"
     archived = "archived"
 
 class Memo(BaseModel):
@@ -377,7 +377,7 @@ class Memo(BaseModel):
 
 1. **ID 生成**：使用 UUID 格式，确保全局唯一性
 2. **时间格式**：使用 ISO 8601 格式（`2026-08-28T02:03:00+08:00`）
-3. **状态枚举**：只允许 `draft`、`open`、`consensus`、`archived` 四个值
+3. **状态枚举**：只允许 `draft`、`open`、`consensual`、`archived` 四个值
 4. **消息关联**：`messages` 字段存储消息ID列表，支持多对多关系
 5. **可选字段**：`description` 和 `updated_at` 字段可省略，使用 `omitempty` 标签
 
