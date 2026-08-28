@@ -40,6 +40,165 @@
 
 **说明**：ConsensusGraph 是多个 Consensus 以 DAG（有向无环图）结构组织的集合，表示共识之间的复杂关联关系。图中的节点是共识，边是共识关系，支持多父节点和多子节点，形成有向无环的决策网络。共识图按时间轴排列，确保因果关系的正确性。
 
+## 领域事件
+
+### ConsensusCreated（共识已创建）
+
+- **发生时机**：当团队在讨论中达成一致决策时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusCreated",
+    "timestamp": "datetime",
+    "data": {
+      "consensus_id": "uuid",
+      "title": "string",
+      "description": "string",
+      "created_at": "datetime"
+    }
+  }
+  ```
+- **下游影响**：触发共识图节点添加、共识关系建立等后续操作
+
+### ConsensusUpdated（共识已更新）
+
+- **发生时机**：在共识标记前修正标题或描述时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusUpdated",
+    "timestamp": "datetime",
+    "data": {
+      "consensus_id": "uuid",
+      "title": "string",
+      "description": "string",
+      "updated_at": "datetime"
+    }
+  }
+  ```
+- **下游影响**：触发共识图详情更新、共识列表刷新等操作
+
+### ConsensusDeleted（共识已删除）
+
+- **发生时机**：删除错误创建或无效的共识时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusDeleted",
+    "timestamp": "datetime",
+    "data": {
+      "consensus_id": "uuid"
+    }
+  }
+  ```
+- **下游影响**：触发共识图节点移除、共识关系清理等操作
+
+### ConsensusRelationCreated（共识关系已创建）
+
+- **发生时机**：建立共识之间的逻辑关联时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusRelationCreated",
+    "timestamp": "datetime",
+    "data": {
+      "relation_id": "uuid",
+      "from": "uuid",
+      "to": "uuid",
+      "relation_type": "string"
+    }
+  }
+  ```
+- **下游影响**：触发共识图边添加、共识关系列表更新等操作
+
+### ConsensusRelationDeleted（共识关系已删除）
+
+- **发生时机**：解除共识之间的错误关联或过时关系时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusRelationDeleted",
+    "timestamp": "datetime",
+    "data": {
+      "relation_id": "uuid"
+    }
+  }
+  ```
+- **下游影响**：触发共识图边移除、共识关系列表更新等操作
+
+### ConsensusGraphNodeAdded（共识图节点已添加）
+
+- **发生时机**：将已创建的共识纳入决策网络时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusGraphNodeAdded",
+    "timestamp": "datetime",
+    "data": {
+      "graph_id": "uuid",
+      "consensus_id": "uuid"
+    }
+  }
+  ```
+- **下游影响**：触发共识图详情更新、拓扑排序重新计算等操作
+
+### ConsensusGraphNodeRemoved（共识图节点已移除）
+
+- **发生时机**：将共识从决策网络中移除时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusGraphNodeRemoved",
+    "timestamp": "datetime",
+    "data": {
+      "graph_id": "uuid",
+      "consensus_id": "uuid"
+    }
+  }
+  ```
+- **下游影响**：触发共识图详情更新、相关边清理等操作
+
+### ConsensusGraphEdgeAdded（共识图边已添加）
+
+- **发生时机**：建立共识图中节点之间的关联关系时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusGraphEdgeAdded",
+    "timestamp": "datetime",
+    "data": {
+      "graph_id": "uuid",
+      "relation_id": "uuid"
+    }
+  }
+  ```
+- **下游影响**：触发共识图详情更新、路径查询结果更新等操作
+
+### ConsensusGraphEdgeRemoved（共识图边已移除）
+
+- **发生时机**：解除共识图中节点之间的错误关联时
+- **事件载荷**：
+  ```json
+  {
+    "event_id": "uuid",
+    "event_type": "ConsensusGraphEdgeRemoved",
+    "timestamp": "datetime",
+    "data": {
+      "graph_id": "uuid",
+      "relation_id": "uuid"
+    }
+  }
+  ```
+- **下游影响**：触发共识图详情更新、路径查询结果更新等操作
+
 ## API 规格
 
 ### Consensus API
