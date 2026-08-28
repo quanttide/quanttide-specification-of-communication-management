@@ -17,7 +17,7 @@
 
 - **id** (String)：消息的唯一标识符，UUID格式
 - **content** (String)：消息的内容，支持文本、语音、图像等多种形式
-- **role** (String)：消息的角色，枚举值：`user`（用户）、`agent`（AI代理）、`system`（系统）
+- **type** (String)：消息的类型，枚举值：`user`（用户消息）、`agent`（AI代理消息）、`system`（系统消息）
 - **created_at** (DateTime)：消息创建时间
 - **updated_at** (DateTime, optional)：消息最后更新时间
 
@@ -37,7 +37,7 @@
     "data": {
       "message_id": "uuid",
       "content": "string",
-      "role": "user",
+      "type": "user",
       "created_at": "datetime"
     }
   }
@@ -88,7 +88,7 @@
   ```json
   {
     "content": "支付失败的时候，用户应该能一键重试...",
-    "role": "user"
+    "type": "user"
   }
   ```
 - **响应**：`201 Created`
@@ -96,7 +96,7 @@
   {
     "id": "m0a80101-0000-0000-0000-000000000001",
     "content": "支付失败的时候，用户应该能一键重试...",
-    "role": "user",
+    "type": "user",
     "created_at": "2026-08-28T09:17:00+08:00"
   }
   ```
@@ -109,7 +109,7 @@
   {
     "id": "m0a80101-0000-0000-0000-000000000001",
     "content": "支付失败的时候，用户应该能一键重试...",
-    "role": "user",
+    "type": "user",
     "created_at": "2026-08-28T09:17:00+08:00"
   }
   ```
@@ -127,7 +127,7 @@
   - `page_size` (int, optional): 每页数量，默认 20
   - `sort_by` (string, optional): 排序字段，默认 `created_at`
   - `sort_order` (string, optional): 排序方向，默认 `desc`
-  - `role` (string, optional): 按角色筛选
+  - `type` (string, optional): 按消息类型筛选
 - **响应**：`200 OK`
   ```json
   {
@@ -135,19 +135,19 @@
       {
         "id": "m0a80101-0000-0000-0000-000000000003",
         "content": "方案一，改动小，风险可控。",
-        "role": "user",
+        "type": "user",
         "created_at": "2026-08-28T14:21:00+08:00"
       },
       {
         "id": "m0a80101-0000-0000-0000-000000000002",
         "content": "支付超时的处理方案需要讨论一下。",
-        "role": "user",
+        "type": "user",
         "created_at": "2026-08-28T14:20:00+08:00"
       },
       {
         "id": "m0a80101-0000-0000-0000-000000000001",
         "content": "支付失败的时候，用户应该能一键重试...",
-        "role": "user",
+        "type": "user",
         "created_at": "2026-08-28T09:17:00+08:00"
       }
     ],
@@ -168,7 +168,7 @@
 type Message struct {
     ID        string `json:"id"`
     Content   string `json:"content"`
-    Role      string `json:"role"`                // "user" / "agent" / "system"
+    Type      string `json:"type"`                // "user" / "agent" / "system"
     CreatedAt string `json:"created_at"`
     UpdatedAt string `json:"updated_at,omitempty"`
 }
@@ -184,7 +184,7 @@ import consensus "github.com/quanttide/quanttide-connect-toolkit/packages/go/pkg
 消息模型在 Python 包中的定义：
 
 ```python
-class Role(str, Enum):
+class MessageType(str, Enum):
     user = "user"
     agent = "agent"
     system = "system"
@@ -193,7 +193,7 @@ class Message(BaseModel):
     """对话消息，按时间排序。"""
     id: str = Field(default_factory=_new_id)
     content: str
-    role: Role
+    type: MessageType
     created_at: datetime = Field(default_factory=_utcnow)
     updated_at: datetime | None = None
 ```
@@ -202,6 +202,6 @@ class Message(BaseModel):
 
 1. **ID 生成**：使用 UUID 格式，确保全局唯一性
 2. **时间格式**：使用 ISO 8601 格式（`2026-08-28T09:17:00+08:00`）
-3. **角色枚举**：只允许 `user`、`agent`、`system` 三个值
+3. **类型枚举**：只允许 `user`、`agent`、`system` 三个值
 4. **内容不可变**：消息一旦创建，内容字段不可修改
 5. **可选字段**：`updated_at` 字段可省略，使用 `omitempty` 标签
