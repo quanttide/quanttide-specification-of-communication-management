@@ -15,21 +15,17 @@
 
 ### Consensus（共识）
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | UUID | 共识的唯一标识符 |
-| `title` | String | 共识的标题，简要描述决策内容 |
-| `description` | String | 共识的详细描述，包含决策的背景、依据和具体内容 |
-| `created_at` | DateTime | 共识创建时间（标记共识的时间戳） |
-| `updated_at` | DateTime | 共识最后更新时间（通常与 created_at 相同，因为共识不可篡改） |
+- **id** (UUID)：共识的唯一标识符
+- **title** (String)：共识的标题，简要描述决策内容
+- **description** (String)：共识的详细描述，包含决策的背景、依据和具体内容
+- **created_at** (DateTime)：共识创建时间（标记共识的时间戳）
+- **updated_at** (DateTime)：共识最后更新时间（通常与 created_at 相同，因为共识不可篡改）
 
 ### ConsensusRelation（共识关系）
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | UUID | 关系的唯一标识符 |
-| `from` | UUID | 关系起点的共识 ID |
-| `to` | UUID | 关系终点的共识 ID |
-| `relation_type` | String | 关系类型（如：支持、反对、补充、前置条件等） |
+- **id** (UUID)：关系的唯一标识符
+- **from** (UUID)：关系起点的共识 ID
+- **to** (UUID)：关系终点的共识 ID
+- **relation_type** (String)：关系类型（如：支持、反对、补充、前置条件等）
 
 **说明**：ConsensusRelation 用于建立共识之间的逻辑关联，形成决策图谱。例如，一个共识可能是另一个共识的前置条件，或者两个共识存在支持或反对关系。
