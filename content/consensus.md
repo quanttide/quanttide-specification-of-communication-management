@@ -208,6 +208,8 @@
 
 #### 获取共识图详情
 - **GET** `/consensus-graphs/{id}`
+- **查询参数**：
+  - `sort` (string, optional): 排序方式，`topological`（拓扑排序），默认不排序
 - **响应**：`200 OK`
   ```json
   {
@@ -368,35 +370,7 @@
   }
   ```
 
-#### 获取共识图（拓扑排序）
-- **GET** `/consensus-graphs/{id}?sort=topological`
-- **响应**：`200 OK`
-  ```json
-  {
-    "id": "uuid",
-    "name": "string",
-    "description": "string",
-    "nodes": [
-      {
-        "id": "uuid",
-        "title": "string",
-        "description": "string",
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-    ],
-    "edges": [
-      {
-        "id": "uuid",
-        "from": "uuid",
-        "to": "uuid",
-        "relation_type": "string"
-      }
-    ],
-    "created_at": "datetime",
-    "updated_at": "datetime"
-  }
-  ```
+
 
 #### 获取共识图的路径
 - **GET** `/consensus-graphs/{id}/paths`
