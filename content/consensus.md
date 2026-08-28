@@ -30,11 +30,12 @@
 
 **说明**：ConsensusRelation 用于建立共识之间的逻辑关联，形成决策图谱。例如，一个共识可能是另一个共识的前置条件，或者两个共识存在支持或反对关系。
 
-### ConsensusChain（共识链）
+### ConsensusGraph（共识图）
 
-- **id** (UUID)：共识链的唯一标识符
-- **consensuses** (List<Consensus>)：按时间顺序排列的共识列表
-- **created_at** (DateTime)：共识链创建时间
-- **updated_at** (DateTime)：共识链最后更新时间
+- **id** (UUID)：共识图的唯一标识符
+- **nodes** (List<Consensus>)：图中的共识节点列表
+- **edges** (List<ConsensusRelation>)：图中的关系边列表
+- **created_at** (DateTime)：共识图创建时间
+- **updated_at** (DateTime)：共识图最后更新时间
 
-**说明**：ConsensusChain 是多个 Consensus 按时间线顺序组成的线性集合，用于表示一系列相关共识的演进过程。共识链中的共识按照 `created_at` 时间戳排序，形成完整的决策历史记录。
+**说明**：ConsensusGraph 是多个 Consensus 以 DAG（有向无环图）结构组织的集合，表示共识之间的复杂关联关系。图中的节点是共识，边是共识关系，支持多父节点和多子节点，形成有向无环的决策网络。共识图按时间轴排列，确保因果关系的正确性。
